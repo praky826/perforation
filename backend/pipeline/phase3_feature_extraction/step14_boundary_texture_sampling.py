@@ -1,0 +1,141 @@
+"""Step 14: Boundary Texture Sampling (Feature 2 - Roughness).
+
+File: backend/pipeline/phase3_feature_extraction/step14_boundary_texture_sampling.py
+Walks the subpixel outline at fixed real-world arc-length spacing, and at each
+sample cuts a small tangent-aligned patch from whichever of the four torch crops
+shows the highest local texture contrast at that location.
+"""
+
+import logging
+from pathlib import Path
+from typing import Any, Dict, List, Optional, Tuple
+
+import cv2
+import numpy as np
+
+from backend.config.pipeline_constants import BOUNDARY_SAMPLE_SPACING_UM, BOUNDARY_PATCH_SIZE_PX
+from backend.pipeline.phase1_calibration_registration.step02_lens_and_unit_calibration import CalibrationRecord
+from backend.pipeline.phase2_geometry_classification.step07_perforation_candidate_detection import HoleRecord
+from backend.session.session_manager import SessionManager
+
+logger = logging.getLogger(__name__)
+
+TORCH_TAGS = ["torch_1", "torch_2", "torch_3", "torch_4"]
+
+
+def resample_outline(outline: List[List[float]], spacing_px: float) -> List[Tuple[float, float, float]]:
+    """Resample a polyline at fixed arc-length spacing.
+
+    Returns a list of (x, y, tangent_deg) sample points.
+    """
+    pts = np.asarray(outline, dtype=np.float64)
+    if pts.shape[0] < 2 or spacing_px <= 0:
+        return []
+
+    seg_vecs = np.diff(pts, axis=0)
+    seg_len = np.hypot(seg_vecs[:, 0], seg_vecs[:, 1])
+    cum = np.concatenate([[0.0], np.cumsum(seg_len)])
+    total = float(cum[-1])
+    if total <= 0:
+        return []
+
+    samples: List[Tuple[float, float, float]] = []
+    target = 0.0
+    while target < total:
+        seg_idx = int(np.searchsorted(cum, target, side="right") - 1)
+        seg_idx = max(0, min(seg_idx, len(seg_len) - 1))
+        seg_start = cum[seg_idx]
+        frac = (target - seg_start) / max(1e-9, seg_len[seg_idx])
+        p = pts[seg_idx] + frac * seg_vecs[seg_idx]
+        tangent_deg = float(np.degrees(np.arctan2(seg_vecs[seg_idx][1], seg_vecs[seg_idx][0])))
+        samples.append((float(p[0]), float(p[1]), tangent_deg))
+        target += spacing_px
+    return samples
+
+
+def _sobel_magnitude(image: np.ndarray) -> np.ndarray:
+    """Sobel gradient magnitude map of a float image."""
+    gx = cv2.Sobel(image, cv2.CV_32F, 1, 0, ksize=3)
+    gy = cv2.Sobel(image, cv2.CV_32F, 0, 1, ksize=3)
+    return cv2.magnitude(gx, gy)
+
+
+def extract_aligned_patch(
+    image: np.ndarray,
+    center: Tuple[float, float],
+    angle_deg: float,
+    size: int
+) -> np.ndarray:
+    """Cut a square patch centered at `center`, rotated so the tangent is horizontal."""
+    rot = cv2.getRotationMatrix2D(center, angle_deg, 1.0)
+    h, w = image.shape
+    rotated = cv2.warpAffine(image, rot, (w, h), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REPLICATE)
+    patch = cv2.getRectSubPix(rotated, (size, size), center)
+    return patch.astype(np.float32)
+
+
+def run_step14(
+    session_id: str,
+    holes: List[HoleRecord],
+    outlines: Dict[str, List[List[float]]],
+    crops: Dict[str, Dict[str, np.ndarray]],
+    calibration_record: CalibrationRecord,
+    session_manager: Optional[SessionManager] = None
+) -> Dict[str, List[np.ndarray]]:
+    """Execute Step 14: Boundary Texture Sampling."""
+    if session_manager is None:
+        session_manager = SessionManager()
+
+    session_dir = session_manager.get_session_dir(session_id)
+    manifest = session_manager.get_manifest_manager(session_id)
+    holes_dir = session_dir / "holes"
+
+    spacing_px = BOUNDARY_SAMPLE_SPACING_UM / max(1e-6, calibration_record.microns_per_pixel)
+    patch_size = BOUNDARY_PATCH_SIZE_PX
+
+    all_patches: Dict[str, List[np.ndarray]] = {}
+
+    for h in holes:
+        outline = outlines.get(h.hole_id, [])
+        samples = resample_outline(outline, spacing_px)
+        hole_crops = crops.get(h.hole_id, {})
+
+        torch_imgs = {t: hole_crops[t] for t in TORCH_TAGS if t in hole_crops}
+        if not torch_imgs or not samples:
+            all_patches[h.hole_id] = []
+            continue
+
+        sobel_maps = {t: _sobel_magnitude(img) for t, img in torch_imgs.items()}
+
+        patches: List[np.ndarray] = []
+        patch_dir = holes_dir / h.hole_id / "boundary_patches"
+        patch_dir.mkdir(parents=True, exist_ok=True)
+
+        for i, (x, y, tangent_deg) in enumerate(samples):
+            # Select torch crop with highest local contrast at this point.
+            best_tag = None
+            best_score = -1.0
+            for t, mag in sobel_maps.items():
+                local = cv2.getRectSubPix(mag, (patch_size, patch_size), (x, y))
+                score = float(np.mean(local))
+                if score > best_score:
+                    best_score = score
+                    best_tag = t
+
+            patch = extract_aligned_patch(torch_imgs[best_tag], (x, y), tangent_deg, patch_size)
+            patches.append(patch)
+
+            patch_u8 = (np.clip(patch, 0.0, 1.0) * 255.0).astype(np.uint8)
+            cv2.imwrite(str(patch_dir / f"patch_{i:03d}.png"), patch_u8)
+
+        all_patches[h.hole_id] = patches
+
+    manifest.add_stage_entry(
+        step_id=14,
+        phase=3,
+        stage_name="boundary_texture_sampling",
+        output_path="holes/",
+        status="complete"
+    )
+
+    return all_patches

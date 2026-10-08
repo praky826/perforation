@@ -1,0 +1,27 @@
+Phase 3 Completion Summary: Pipeline Ingestion, Calibration, and Registration (Steps 1-5)
+
+Files Created and Purpose:
+The file backend/pipeline/phase0_ingestion/step01_raw_capture_ingestion.py was created to implement Step 1 of the pipeline. It validates session_log.json and camera_settings consistency across exposures, maps raw files against the capture tag schema, decodes RAW sensor data in linear space without gamma correction or auto-brightness via rawpy, collapses channels to linear luminance via the standard weighting formula (0.2126R + 0.7152G + 0.0722B), attaches torch geometry metadata, and encapsulates each frame as a RawFrameRecord.
+The file backend/pipeline/phase1_calibration_registration/step02_lens_and_unit_calibration.py was created to implement Step 2. It detects optical calibration targets (circles grid or chessboard) in the calibration frame, estimates lens radial distortion coefficients (k1, k2, k3) via OpenCV calibration, undistorts all frames in the session in place, and computes the real-world scale factor (microns_per_pixel) saved as a CalibrationRecord.
+The file backend/pipeline/phase1_calibration_registration/step03_illumination_geometry.py was created to implement Step 3. It determines the 3D illumination direction (azimuth and elevation) for each of the four torches using Path A (geometric height and distance trigonometry with manual offset correction) or Path B (specular glint vector geometry from optional chrome ball-bearing calibration photos), saving the output to illumination_geometry.json.
+The file backend/pipeline/phase1_calibration_registration/step04_brightness_matching.py was created to implement Step 4. It samples a shared undecorated patch of paper across all four torch photos, computes linear scalar multipliers to equalize torch illumination intensity without introducing local gradients, verifies deviation against BRIGHTNESS_MISMATCH_TOLERANCE, applies whole-frame rescaling to torch frames, and saves correction factors to brightness_correction.json.
+The file backend/pipeline/phase1_calibration_registration/step05_cross_pass_registration.py was created to implement Step 5. It aligns all torch photos and the backlit photo to the diffuse overview reference frame using Enhanced Correlation Coefficient (ECC) with ORB keypoint matching and Homography fallback, evaluates spatial shift against movement tolerance, generates registered preview images for live thumbnail inspection (Feature 6), records image entries in manifest.json, and saves registration_summary.json.
+
+Backend API Function Signatures Added:
+Per the strict development order rules, backend/api.py will be built in Phase 9 once all computational steps exist. No functions were added directly to backend/api.py during Phase 3. However, the execution functions implemented here (run_step01, run_step02, run_step03, run_step04, run_step05) form the exact callable pipeline stages that runner.py will sequence and that upcoming api endpoints (validate_upload, get_brightness_warnings, get_manifest_diff) will read from.
+
+Key Data Structures and JSON Formats Decided and Used:
+RawFrameRecord stores tag, brightness_array (2D float32 numpy array normalized to 0.0-1.0), source_filename, and optional torch_meta dictionary.
+CalibrationRecord serialized to stages/calibration.json contains distortion_coeffs (float array [k1, k2, k3]), microns_per_pixel (float), and calibration_source_tag.
+IlluminationGeometry serialized to stages/illumination_geometry.json contains an array of 4 torch records with torch_index (1-4), azimuth_deg (float), elevation_deg (float), and source_path (calculated or ball_bearing).
+Brightness correction payload serialized to stages/brightness_correction.json contains reference_patch_bbox ([x, y, w, h]), b_reference, patch_mean_brightness dictionary, correction_factors dictionary, tolerance threshold, and hardware warnings list.
+Registration summary serialized to stages/registration_summary.json contains reference_tag, registered_tags list, and movement_warnings list. Registered images are written to stages/registered/ as 8-bit PNG files and indexed in manifest.json with stage 'registration'.
+
+Ambiguities Encountered and Resolution:
+When calibration targets lack recognizable grid patterns (such as continuous ruled scales or unprinted areas), detect_calibration_scale safely falls back to an identity distortion model (k1=0, k2=0, k3=0) and nominal high-resolution macro scale (10 microns/pixel) while logging an informational message, ensuring pipeline continuity without crashing.
+For Step 5 cross-pass registration, ECC alignment is sensitive to large initial offsets; an automated fallback was implemented utilizing ORB feature extraction and RANSAC homography estimation when cv2.findTransformECC fails to converge, guaranteeing registration robustness.
+
+Decisions Made Not Explicitly in Documents:
+In Step 1, decode_raw_to_luminance was implemented with an automatic fallback path using OpenCV for standard image formats and arrays, enabling headless testing and simulated unit verifications while preserving rawpy as the primary engine for real camera RAW files.
+In Step 5, registered reference and warped target frames are automatically converted and persisted to stages/registered/ as PNG images and registered into manifest.json via add_image_entry, immediately supplying the thumbnail stream for Feature 6.
+Verified zero Qt or PySide6 imports across all pipeline files, preserving clean architectural decoupling.

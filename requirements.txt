@@ -1,0 +1,24 @@
+# IPDS Confirmed Technology Stack Requirements
+# Standalone Desktop Reperforation-Detection Application
+
+# Core Numerical and Scientific Computing
+numpy>=1.24.0
+scipy>=1.10.0
+scikit-learn>=1.2.0
+pandas>=2.0.0
+
+# Image Processing and Computer Vision
+opencv-python>=4.7.0
+scikit-image>=0.20.0
+rawpy>=0.18.0
+shapely>=2.0.0
+
+# User Interface and Visualization
+PySide6>=6.5.0
+matplotlib>=3.7.0
+
+# PDF Report Generation
+reportlab>=3.6.0
+
+# Testing and Packaging
+pytest>=7.3.0

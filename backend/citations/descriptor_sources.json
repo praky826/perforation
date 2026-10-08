@@ -1,0 +1,22 @@
+{
+    "shape": {
+        "descriptor_name": "Shape & Circularity Deviation",
+        "citation_text": "Fourier boundary descriptor analysis and harmonic decomposition for contour irregularity, eccentricity, and perforation circularity assessment.",
+        "source_reference": "IDF-B Section 3; Zahn, C. T., & Roskies, R. Z. (1972). 'Fourier Descriptors for Plane Closed Curves.' IEEE Transactions on Computers, C-21(3), 269-281."
+    },
+    "roughness": {
+        "descriptor_name": "Boundary Tear Roughness & Edge Texture",
+        "citation_text": "Gradient magnitude analysis via Sobel filtering and Gray-Level Co-occurrence Matrix (GLCM) texture metrics for paper fiber tear roughness characterization.",
+        "source_reference": "IDF-B Section 3; Haralick, R. M., Shanmugam, K., & Dinstein, I. (1973). 'Textural Features for Image Classification.' IEEE Transactions on Systems, Man, and Cybernetics, SMC-3(6), 610-621."
+    },
+    "shadow": {
+        "descriptor_name": "Directional Shadow & Photometric Gradient",
+        "citation_text": "Multi-directional photometric profile fitting and edge shadow gradient vector estimation for depression, punch-bevel, and tool chamfer angle detection.",
+        "source_reference": "IDF-B Section 3; Woodham, R. J. (1980). 'Photometric Method for Determining Surface Orientation from Multiple Images.' Optical Engineering, 19(1), 139-144; Hardware Specification Section 4."
+    },
+    "statistics": {
+        "descriptor_name": "Leave-One-Out Robust Statistics & Spatial Clustering",
+        "citation_text": "Leave-one-out intra-specimen deviation scoring using Median and Median Absolute Deviation (MAD) scaled for normal consistency with spatial run clustering.",
+        "source_reference": "IDF-B Section 8; Rousseeuw, P. J., & Croux, C. (1993). 'Alternatives to the Median Absolute Deviation.' Journal of the American Statistical Association, 88(424), 1273-1283."
+    }
+}
