@@ -1,0 +1,9 @@
+{
+  "distortion_coeffs": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "microns_per_pixel": 10.0,
+  "calibration_source_tag": "calibration"
+}

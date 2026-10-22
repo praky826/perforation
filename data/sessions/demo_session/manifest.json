@@ -1,0 +1,343 @@
+{
+  "session_id": "demo_session",
+  "status": "complete",
+  "stages": [
+    {
+      "step_id": 1,
+      "phase": 0,
+      "stage_name": "raw_capture_ingestion",
+      "output_path": "raw/",
+      "timestamp": "2026-10-08T07:58:32.853549+00:00",
+      "status": "complete"
+    },
+    {
+      "step_id": 2,
+      "phase": 1,
+      "stage_name": "lens_and_unit_calibration",
+      "output_path": "stages/calibration.json",
+      "timestamp": "2026-10-08T07:58:32.913060+00:00",
+      "status": "complete"
+    },
+    {
+      "step_id": 3,
+      "phase": 1,
+      "stage_name": "illumination_geometry",
+      "output_path": "stages/illumination_geometry.json",
+      "timestamp": "2026-10-08T07:58:32.938826+00:00",
+      "status": "complete"
+    },
+    {
+      "step_id": 4,
+      "phase": 1,
+      "stage_name": "brightness_matching",
+      "output_path": "stages/brightness_correction.json",
+      "timestamp": "2026-10-08T07:58:32.957346+00:00",
+      "status": "complete"
+    },
+    {
+      "step_id": 5,
+      "phase": 1,
+      "stage_name": "cross_pass_registration",
+      "output_path": "stages/registered/",
+      "timestamp": "2026-10-08T07:58:33.875626+00:00",
+      "status": "complete"
+    },
+    {
+      "step_id": 6,
+      "phase": 2,
+      "stage_name": "stamp_boundary_orientation",
+      "output_path": "stages/stamp_frame.json",
+      "timestamp": "2026-10-08T07:58:33.892673+00:00",
+      "status": "complete"
+    },
+    {
+      "step_id": 7,
+      "phase": 2,
+      "stage_name": "perforation_candidate_detection",
+      "output_path": "stages/holes.json",
+      "timestamp": "2026-10-08T07:58:33.909335+00:00",
+      "status": "complete"
+    },
+    {
+      "step_id": 8,
+      "phase": 2,
+      "stage_name": "hole_tooth_classification",
+      "output_path": "stages/holes.json",
+      "timestamp": "2026-10-08T07:58:33.939751+00:00",
+      "status": "complete"
+    },
+    {
+      "step_id": 9,
+      "phase": 2,
+      "stage_name": "roi_extraction",
+      "output_path": "holes/",
+      "timestamp": "2026-10-08T07:58:33.970719+00:00",
+      "status": "complete"
+    },
+    {
+      "step_id": 10,
+      "phase": 2,
+      "stage_name": "focus_stack_fusion",
+      "output_path": "holes/",
+      "timestamp": "2026-10-08T07:58:34.013393+00:00",
+      "status": "complete"
+    },
+    {
+      "step_id": 11,
+      "phase": 3,
+      "stage_name": "subpixel_contour",
+      "output_path": "holes/",
+      "timestamp": "2026-10-08T07:58:34.140898+00:00",
+      "status": "complete"
+    },
+    {
+      "step_id": 12,
+      "phase": 3,
+      "stage_name": "centroid_radius_profile",
+      "output_path": "holes/",
+      "timestamp": "2026-10-08T07:58:34.174694+00:00",
+      "status": "complete"
+    },
+    {
+      "step_id": 13,
+      "phase": 3,
+      "stage_name": "shape_deviation_descriptor",
+      "output_path": "holes/",
+      "timestamp": "2026-10-08T07:58:34.193346+00:00",
+      "status": "complete"
+    },
+    {
+      "step_id": 14,
+      "phase": 3,
+      "stage_name": "boundary_texture_sampling",
+      "output_path": "holes/",
+      "timestamp": "2026-10-08T07:58:34.765431+00:00",
+      "status": "complete"
+    },
+    {
+      "step_id": 15,
+      "phase": 3,
+      "stage_name": "roughness_descriptor",
+      "output_path": "holes/",
+      "timestamp": "2026-10-08T07:58:35.678557+00:00",
+      "status": "complete"
+    },
+    {
+      "step_id": 16,
+      "phase": 3,
+      "stage_name": "angular_brightness_sampling",
+      "output_path": "holes/",
+      "timestamp": "2026-10-08T07:58:35.724049+00:00",
+      "status": "complete"
+    },
+    {
+      "step_id": 17,
+      "phase": 3,
+      "stage_name": "directional_profile_fitting",
+      "output_path": "holes/",
+      "timestamp": "2026-10-08T07:58:35.765023+00:00",
+      "status": "complete"
+    },
+    {
+      "step_id": 18,
+      "phase": 3,
+      "stage_name": "composite_signature_assembly",
+      "output_path": "holes/",
+      "timestamp": "2026-10-08T07:58:35.878364+00:00",
+      "status": "complete"
+    },
+    {
+      "step_id": 19,
+      "phase": 4,
+      "stage_name": "reference_group_construction",
+      "output_path": "manifest.json",
+      "timestamp": "2026-10-08T07:58:35.907896+00:00",
+      "status": "complete"
+    },
+    {
+      "step_id": 20,
+      "phase": 4,
+      "stage_name": "robust_stats_deviation_score",
+      "output_path": "holes/",
+      "timestamp": "2026-10-08T07:58:35.938321+00:00",
+      "status": "complete"
+    },
+    {
+      "step_id": 21,
+      "phase": 4,
+      "stage_name": "outlier_thresholding",
+      "output_path": "holes/",
+      "timestamp": "2026-10-08T07:58:35.982499+00:00",
+      "status": "complete"
+    },
+    {
+      "step_id": 22,
+      "phase": 4,
+      "stage_name": "spatial_clustering",
+      "output_path": "stages/candidate_regions.json",
+      "timestamp": "2026-10-08T07:58:36.007685+00:00",
+      "status": "complete"
+    },
+    {
+      "step_id": 23,
+      "phase": 4,
+      "stage_name": "final_output_generation",
+      "output_path": "results/",
+      "timestamp": "2026-10-08T07:58:36.124932+00:00",
+      "status": "complete"
+    }
+  ],
+  "images": [
+    {
+      "token": 1,
+      "path": "stages/registered/diffuse_registered.png",
+      "stage": "registration",
+      "hole_id": null,
+      "edge": null,
+      "flagged": null,
+      "timestamp": "2026-10-08T07:58:32.975082+00:00"
+    },
+    {
+      "token": 2,
+      "path": "stages/registered/torch_1_registered.png",
+      "stage": "registration",
+      "hole_id": null,
+      "edge": null,
+      "flagged": null,
+      "timestamp": "2026-10-08T07:58:33.555344+00:00"
+    },
+    {
+      "token": 3,
+      "path": "stages/registered/torch_2_registered.png",
+      "stage": "registration",
+      "hole_id": null,
+      "edge": null,
+      "flagged": null,
+      "timestamp": "2026-10-08T07:58:33.611834+00:00"
+    },
+    {
+      "token": 4,
+      "path": "stages/registered/torch_3_registered.png",
+      "stage": "registration",
+      "hole_id": null,
+      "edge": null,
+      "flagged": null,
+      "timestamp": "2026-10-08T07:58:33.752987+00:00"
+    },
+    {
+      "token": 5,
+      "path": "stages/registered/torch_4_registered.png",
+      "stage": "registration",
+      "hole_id": null,
+      "edge": null,
+      "flagged": null,
+      "timestamp": "2026-10-08T07:58:33.841060+00:00"
+    },
+    {
+      "token": 6,
+      "path": "stages/registered/backlit_registered.png",
+      "stage": "registration",
+      "hole_id": null,
+      "edge": null,
+      "flagged": null,
+      "timestamp": "2026-10-08T07:58:33.861128+00:00"
+    },
+    {
+      "token": 7,
+      "path": "results/annotated_overview.png",
+      "stage": "final_output",
+      "hole_id": null,
+      "edge": null,
+      "flagged": null,
+      "timestamp": "2026-10-08T07:58:36.079740+00:00"
+    }
+  ],
+  "holes_total": 2,
+  "holes_processed": 2,
+  "low_confidence_holes": [
+    "top_01",
+    "bottom_01"
+  ],
+  "version_metadata": {
+    "app_version": "1.0.0",
+    "python_version": "3.11.9",
+    "config_snapshot": {
+      "COMPOSITE_FIELD_ORDER": [
+        "mean_radius_um",
+        "radius_std_um",
+        "fourier_c1",
+        "fourier_c2",
+        "fourier_c3",
+        "fourier_c4",
+        "roundness_ratio",
+        "sobel_mean",
+        "sobel_std",
+        "glcm_contrast",
+        "glcm_homogeneity",
+        "residual_wobble",
+        "shadow_strength",
+        "shadow_direction_deg"
+      ],
+      "RADIUS_PROFILE_NUM_ANGLES": 72,
+      "FOURIER_FIT_ORDER": 4,
+      "BRIGHTNESS_MISMATCH_TOLERANCE": 0.15,
+      "CAMERA_MATCH_KEYS": [
+        "aperture",
+        "shutter_speed",
+        "iso",
+        "white_balance"
+      ],
+      "BOUNDARY_SAMPLE_SPACING_UM": 20.0,
+      "BOUNDARY_PATCH_SIZE_PX": 7,
+      "GLCM_LEVELS": 256,
+      "GLCM_DISTANCES": [
+        1
+      ],
+      "GLCM_ANGLES_DEG": [
+        0.0
+      ],
+      "PAPER_SAMPLE_OFFSET_UM": 60.0,
+      "MIN_HOLES_PER_EDGE": 5,
+      "MAD_SCALE_CONSTANT": 0.6745,
+      "COMBINATION_METHOD": "summed_z",
+      "OUTLIER_CUTOFF": 3.0,
+      "MAHALANOBIS_SIGNIFICANCE_LEVEL": 0.025,
+      "REGION_MERGE_MAX_GAP": 1,
+      "REGION_MERGE_ENABLED": true,
+      "VALIDATION_ROC_CUTOFF_MIN": 0.0,
+      "VALIDATION_ROC_CUTOFF_MAX": 6.0,
+      "VALIDATION_ROC_CUTOFF_STEPS": 25,
+      "SUSPICION_BANDS": {
+        "genuine": [
+          0.0,
+          2.5
+        ],
+        "suspicious": [
+          2.5,
+          3.5
+        ],
+        "highly_suspicious": [
+          3.5,
+          "inf"
+        ]
+      }
+    },
+    "library_versions": {
+      "numpy": "2.4.6",
+      "scipy": "1.17.1",
+      "scikit-learn": "1.9.1",
+      "pandas": "3.0.6",
+      "opencv-python": "5.0.0.93",
+      "scikit-image": "0.26.0",
+      "rawpy": "0.27.1",
+      "shapely": "2.2.0",
+      "PySide6": "6.11.2",
+      "matplotlib": "3.11.2",
+      "reportlab": "5.0.1"
+    },
+    "captured_at": "2026-10-08T07:58:32.713557+00:00"
+  },
+  "mod_token": 43,
+  "created_at": "2026-09-21T16:04:38.272648+00:00",
+  "updated_at": "2026-10-08T07:58:36.195654+00:00"
+}

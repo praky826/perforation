@@ -1,0 +1,47 @@
+{
+  "session_id": "demo_session",
+  "specimen_id": "specimen_001",
+  "torches": [
+    {
+      "torch_id": "torch_1",
+      "azimuth_deg": 0.0,
+      "height_cm": 10.0,
+      "distance_cm": 50.0,
+      "manual_correction_deg": 0.0,
+      "computed_elevation_deg": 11.31
+    },
+    {
+      "torch_id": "torch_2",
+      "azimuth_deg": 90.0,
+      "height_cm": 10.0,
+      "distance_cm": 50.0,
+      "manual_correction_deg": 0.0,
+      "computed_elevation_deg": 11.31
+    },
+    {
+      "torch_id": "torch_3",
+      "azimuth_deg": 180.0,
+      "height_cm": 10.0,
+      "distance_cm": 50.0,
+      "manual_correction_deg": 0.0,
+      "computed_elevation_deg": 11.31
+    },
+    {
+      "torch_id": "torch_4",
+      "azimuth_deg": 270.0,
+      "height_cm": 10.0,
+      "distance_cm": 50.0,
+      "manual_correction_deg": 0.0,
+      "computed_elevation_deg": 11.31
+    }
+  ],
+  "camera_settings": {
+    "aperture": 2.8,
+    "shutter_speed": 0.005,
+    "iso": 100,
+    "white_balance": "daylight"
+  },
+  "ball_bearing_used": false,
+  "capture_timestamp": "2026-01-01T00:00:00Z",
+  "operator_notes": "test"
+}

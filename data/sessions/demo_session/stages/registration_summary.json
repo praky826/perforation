@@ -1,0 +1,16 @@
+{
+  "reference_tag": "diffuse",
+  "registered_tags": [
+    "diffuse",
+    "torch_1",
+    "torch_2",
+    "torch_3",
+    "torch_4",
+    "backlit"
+  ],
+  "movement_warnings": [
+    "torch_1 showed possible mid-session movement (shift: 254.08px)",
+    "torch_3 showed possible mid-session movement (shift: 20.90px)",
+    "torch_4 showed possible mid-session movement (shift: 20.90px)"
+  ]
+}

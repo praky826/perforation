@@ -1,0 +1,63 @@
+{
+  "shape": {
+    "mean_radius_um": 1049.608997333705,
+    "radius_std_um": 223.0933084383831,
+    "fourier_coeffs": [
+      0.024082098394267303,
+      29.32813561857511,
+      0.0027137685355017238,
+      6.349028462689846
+    ],
+    "roundness_ratio": 0.7480459914474773
+  },
+  "roughness": {
+    "sobel_mean": 0.08544595154748844,
+    "sobel_std": 0.051511813837693474,
+    "glcm_contrast": 386.62087912087907,
+    "glcm_homogeneity": 0.18694309114885996,
+    "residual_wobble": 6.890652973633511
+  },
+  "shadow": {
+    "strength": 4.139184402743474,
+    "direction_deg": 331.5943668333792,
+    "per_point_confidence_summary": {
+      "mean": 0.25871914729642953,
+      "min": 0.013682877098294459,
+      "max": 0.589772269194105
+    }
+  },
+  "composite": {
+    "vector": [
+      1049.608997333705,
+      223.0933084383831,
+      0.024082098394267303,
+      29.32813561857511,
+      0.0027137685355017238,
+      6.349028462689846,
+      0.7480459914474773,
+      0.08544595154748844,
+      0.051511813837693474,
+      386.62087912087907,
+      0.18694309114885996,
+      6.890652973633511,
+      4.139184402743474,
+      331.5943668333792
+    ],
+    "field_names": [
+      "mean_radius_um",
+      "radius_std_um",
+      "fourier_c1",
+      "fourier_c2",
+      "fourier_c3",
+      "fourier_c4",
+      "roundness_ratio",
+      "sobel_mean",
+      "sobel_std",
+      "glcm_contrast",
+      "glcm_homogeneity",
+      "residual_wobble",
+      "shadow_strength",
+      "shadow_direction_deg"
+    ]
+  }
+}

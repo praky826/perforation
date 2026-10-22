@@ -1,0 +1,30 @@
+{
+  "reference_patch_bbox": [
+    76,
+    121,
+    32,
+    32
+  ],
+  "b_reference": 0.5920150130987167,
+  "patch_mean_brightness": {
+    "torch_1": 0.5151561498641968,
+    "torch_2": 0.4988473057746887,
+    "torch_3": 0.6770282983779907,
+    "torch_4": 0.6770282983779907
+  },
+  "correction_factors": {
+    "torch_1": 1.1492,
+    "torch_2": 1.1868,
+    "torch_3": 0.8744,
+    "torch_4": 0.8744
+  },
+  "tolerance": 0.15,
+  "warnings": [
+    {
+      "torch_id": "torch_2",
+      "factor": 1.1868,
+      "deviation_pct": 18.7,
+      "message": "torch_2 brightness deviates by 18.7% from reference average"
+    }
+  ]
+}
